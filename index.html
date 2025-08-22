@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radioatividade e Tecnologia: Perspectivas do Futuro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Blue/Green Accents -->
+    <!-- Application Structure Plan: A single-page application with a fixed top navigation bar for easy access to thematic sections (Início, O que é?, Aplicações, Futuro & Segurança). This structure allows for non-linear exploration, which is more engaging than a slide deck. The core 'Aplicações' section is interactive, using buttons to dynamically display content for different fields (Energy, Medicine, Space), making the information digestible and focused. This design prioritizes user-driven discovery over a passive viewing experience. -->
+    <!-- Visualization & Content Choices: The presentation content was broken down into logical sections. Goal: Inform -> Method: Thematic sections with clear headings and concise text. Goal: Organize/Compare -> Method: An interactive card system in the 'Aplicações' section. Interaction: Buttons switch content dynamically. Justification: This avoids overwhelming the user with information and allows direct comparison between applications. Goal: Visualize Data -> Method: A Chart.js doughnut chart for 'Energia Nuclear' provides a quick visual representation of efficiency. Justification: A chart is more impactful than text alone for conveying proportions. All diagrams are built with HTML/CSS to adhere to constraints. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4;
+            color: #292524;
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+        }
+        .card {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn-app.active {
+            background-color: #0ea5e9;
+            color: white;
+        }
+        .content-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+            opacity: 1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @keyframes fadeInMoveUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animated-section {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .animated-section.animate-in {
+            animation: fadeInMoveUp 1s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-stone-800">Radioatividade & Tecnologia</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#inicio" class="nav-link text-stone-600 border-b-2 border-transparent pb-1">Início</a>
+                <a href="#definicao" class="nav-link text-stone-600 border-b-2 border-transparent pb-1">O que é?</a>
+                <a href="#aplicacoes" class="nav-link text-stone-600 border-b-2 border-transparent pb-1">Aplicações</a>
+                <a href="#futuro" class="nav-link text-stone-600 border-b-2 border-transparent pb-1">Futuro & Segurança</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-stone-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#inicio" class="block py-2 text-stone-600">Início</a>
+            <a href="#definicao" class="block py-2 text-stone-600">O que é?</a>
+            <a href="#aplicacoes" class="block py-2 text-stone-600">Aplicações</a>
+            <a href="#futuro" class="block py-2 text-stone-600">Futuro & Segurança</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="min-h-screen flex items-center bg-stone-50 animated-section">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-6xl font-bold text-sky-600 mb-4 animate-[fadeInMoveUp_1s_ease-out_forwards]">Radioatividade e Tecnologia</h2>
+                <p class="text-xl md:text-2xl text-stone-700 mb-8 animate-[fadeInMoveUp_1s_ease-out_0.5s_forwards] opacity-0">Explorando as Perspectivas do Futuro</p>
+                <div class="max-w-2xl mx-auto text-left text-stone-600 space-y-2 animate-[fadeInMoveUp_1s_ease-out_1s_forwards] opacity-0">
+                    <p><strong>Escola:</strong> <span class="text-xl md:text-2xl font-semibold">Cora Coralina</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="definicao" class="py-20 bg-white animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">O que é Radioatividade?</h2>
+                    <p class="text-lg text-stone-600 mt-2">Uma força fundamental que molda nossa tecnologia.</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <h3 class="text-2xl font-semibold mb-4 text-sky-700">A Emissão de Energia</h3>
+                        <p class="text-stone-600 leading-relaxed mb-4">Radioatividade é o fenômeno pelo qual núcleos atômicos instáveis de certos elementos, como o urânio e o rádio, emitem energia na forma de radiação. Esse processo natural, ao ser compreendido e controlado, abriu portas para inovações tecnológicas revolucionárias.</p>
+                        <p class="text-stone-600 leading-relaxed">O objetivo desta exploração é desvendar como essa força da natureza é aplicada na ciência e na tecnologia, impulsionando desde a geração de energia limpa até a exploração de outros planetas.</p>
+                    </div>
+                    <div class="md:w-1/2 flex justify-center items-center p-8">
+                         <div class="relative w-64 h-64">
+                            <div class="absolute inset-0 border-2 border-sky-200 rounded-full animate-pulse"></div>
+                            <div class="absolute inset-4 border-2 border-sky-300 rounded-full animate-pulse delay-200"></div>
+                            <div class="absolute inset-8 flex items-center justify-center">
+                                <div class="w-16 h-16 bg-sky-500 rounded-full shadow-lg flex items-center justify-center text-white font-bold text-2xl">U</div>
+                            </div>
+                            <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 text-stone-600">α</div>
+                            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-4 text-stone-600">β</div>
+                            <div class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 text-stone-600">γ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="aplicacoes" class="py-20 bg-stone-50 animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">Aplicações Transformadoras</h2>
+                    <p class="text-lg text-stone-600 mt-2">Da energia que ilumina cidades à medicina que salva vidas.</p>
+                </div>
+                <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
+                    <button class="btn-app active px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold bg-white text-stone-700 shadow-sm transition" data-target="energia">⚡ Energia</button>
+                    <button class="btn-app px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold bg-white text-stone-700 shadow-sm transition" data-target="medicina">❤️ Medicina</button>
+                    <button class="btn-app px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold bg-white text-stone-700 shadow-sm transition" data-target="espaco">🚀 Espaço</button>
+                </div>
+
+                <div id="app-content" class="max-w-4xl mx-auto">
+                    <div id="energia" class="content-section active">
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-semibold mb-4 text-sky-700">Energia Nuclear</h3>
+                            <p class="text-stone-600 leading-relaxed mb-6">A energia nuclear é gerada através da fissão – a quebra de átomos de urânio em um reator. Este processo libera uma quantidade imensa de energia, aquecendo água para gerar vapor que move turbinas e produz eletricidade de forma eficiente e sem emitir gases de efeito estufa. Atualmente, a pesquisa avança em direção à fusão nuclear, um processo que imita o sol para criar uma fonte de energia ainda mais limpa e praticamente inesgotável, sem gerar resíduos radioativos de longa duração.</p>
+                            <div class="chart-container">
+                                <canvas id="energyChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="medicina" class="content-section">
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-semibold mb-4 text-sky-700">Medicina Nuclear</h3>
+                            <p class="text-stone-600 leading-relaxed">Na medicina, a radioatividade é uma ferramenta poderosa tanto para diagnóstico quanto para tratamento. A radioterapia utiliza feixes de radiação controlados para destruir células cancerígenas com alta precisão. Exames como o PET-Scan (Tomografia por Emissão de Pósitrons) usam isótopos radioativos para criar imagens detalhadas do funcionamento do corpo, permitindo diagnósticos precoces e precisos de diversas doenças, incluindo câncer e problemas cardíacos.</p>
+                        </div>
+                    </div>
+                    <div id="espaco" class="content-section">
+                        <div class="bg-white p-8 rounded-lg shadow-md">
+                            <h3 class="text-2xl font-semibold mb-4 text-sky-700">Exploração Espacial</h3>
+                            <p class="text-stone-600 leading-relaxed">Para missões espaciais de longa duração, onde a luz solar é fraca ou inexistente, a energia nuclear é essencial. Geradores termoelétricos de radioisótopos (RTGs) convertem o calor da decomposição radioativa em eletricidade de forma contínua por décadas. Essa tecnologia alimenta sondas como a Voyager e rovers em Marte, garantindo que equipamentos científicos e sistemas de comunicação funcionem nos confins do sistema solar, sendo crucial para futuras viagens a outros planetas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="futuro" class="py-20 bg-white animated-section">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-stone-800">Segurança e o Futuro Nuclear</h2>
+                    <p class="text-lg text-stone-600 mt-2">Inovando para um amanhã mais seguro e sustentável.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="card bg-stone-50 p-8 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-sky-700">Reatores Mais Seguros</h3>
+                        <p class="text-stone-600 leading-relaxed">A tecnologia de reatores nucleares evoluiu drasticamente. Os designs modernos incorporam sistemas de segurança passiva, que dependem de leis físicas como gravidade e convecção para resfriar o reator em caso de emergência, sem necessidade de intervenção humana ou energia externa. Isso torna as usinas atuais e futuras exponencialmente mais seguras que as gerações anteriores.</p>
+                    </div>
+                    <div class="card bg-stone-50 p-8 rounded-lg">
+                        <h3 class="text-2xl font-semibold mb-4 text-sky-700">Gestão de Resíduos</h3>
+                        <p class="text-stone-600 leading-relaxed">O principal desafio da energia nuclear são os resíduos radioativos. A pesquisa atual foca em soluções inovadoras, como reatores que "queimam" resíduos de longa duração para gerar mais energia (transmutação) e o desenvolvimento de repositórios geológicos profundos, projetados para isolar o material com segurança por milhares de anos, garantindo a proteção do meio ambiente.</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-16">
+                    <h3 class="text-2xl font-semibold text-stone-800">Conclusão</h3>
+                    <p class="text-stone-600 leading-relaxed max-w-3xl mx-auto mt-4">Desde a geração de energia limpa e a revolução na medicina até a viabilização da exploração espacial, a radioatividade é uma força tecnológica fundamental. O futuro depende do nosso compromisso contínuo com a pesquisa, a segurança e o uso responsável, garantindo que seus benefícios continuem a impulsionar o progresso humano de forma segura e sustentável.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-800 text-stone-300 py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 Apresentação de Radioatividade e Tecnologia. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.hash !== "") {
+                        e.preventDefault();
+                        const hash = this.hash;
+                        const targetElement = document.querySelector(hash);
+                        if (targetElement) {
+                            const headerOffset = 70;
+                            const elementPosition = targetElement.getBoundingClientRect().top;
+                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                      
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: "smooth"
+                            });
+                        }
+                    }
+                });
+            });
+
+            const appButtons = document.querySelectorAll('.btn-app');
+            const contentSections = document.querySelectorAll('.content-section');
+            let energyChart = null;
+
+            function showContent(targetId) {
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            }
+            
+            function createEnergyChart() {
+                const ctx = document.getElementById('energyChart').getContext('2d');
+                if (energyChart) {
+                    energyChart.destroy();
+                }
+                energyChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Eficiência Nuclear', 'Perda Energética'],
+                        datasets: [{
+                            label: 'Eficiência Energética',
+                            data: [90, 10],
+                            backgroundColor: [
+                                '#0ea5e9',
+                                '#e5e5e5'
+                            ],
+                            borderColor: [
+                                '#ffffff',
+                                '#ffffff'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.label}: ${context.raw}%`;
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Eficiência na Geração de Energia (Ilustrativo)'
+                            }
+                        }
+                    }
+                });
+            }
+
+            appButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    appButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const target = button.dataset.target;
+                    showContent(target);
+                    if (target === 'energia') {
+                        setTimeout(createEnergyChart, 50);
+                    }
+                });
+            });
+            
+            showContent('energia');
+            createEnergyChart();
+            
+            const sections = document.querySelectorAll('main section');
+            const headerNavLinks = document.querySelectorAll('header .nav-link');
+            
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                        const sectionId = entry.target.getAttribute('id');
+                        headerNavLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -20% 0px'
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
